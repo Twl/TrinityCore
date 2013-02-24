@@ -78,7 +78,7 @@
 
 #define SIZEFMTD ACE_SIZE_T_FORMAT_SPECIFIER
 
-#if PLATFORM == PLATFORM_APPLE && COMPILER == COMPILER_CLANG
+#if COMPILER_HAS_CPP11_SUPPORT
   #include <stdint.h>
   typedef int64_t int64;
   typedef int32_t int32;

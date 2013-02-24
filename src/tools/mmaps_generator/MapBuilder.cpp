@@ -308,8 +308,8 @@ namespace MMAP
     /**************************************************************************/
     void MapBuilder::buildMap(uint32 mapID)
     {
-        printf("[Thread %u] Building map %" PRIxPTR ":\n", uintptr_t(ACE_Thread::self()), mapID);
-
+        //printf("[Thread %u] Building map %" PRIxPTR ":\n", uintptr_t(ACE_Thread::self()), mapID);
+        printf("[Thread %u] Building map %llu:\n", uint64(ACE_Thread::self()), mapID);
         std::set<uint32>* tiles = getTileList(mapID);
 
         // make sure we process maps which don't have tiles
