@@ -2,10 +2,24 @@
 add_definitions(-D_BUILD_DIRECTIVE='"$(CONFIGURATION)"')
 
 if(WITH_WARNINGS)
-  set(WARNING_FLAGS "-W -Wall -Wextra -Winit-self -Wfatal-errors")
+  set(WARNING_FLAGS "-W -Wall -Wextra -Winit-self -Wfatal-errors -ferror-limit=1")
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${WARNING_FLAGS}")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${WARNING_FLAGS} -Woverloaded-virtual")
   message(STATUS "Clang: All warnings enabled")
+else()
+  set(WARNING_FLAGS "-w -ferror-limit=1")
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${WARNING_FLAGS}")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${WARNING_FLAGS}")
+  message(STATUS "Clang: No warnings enabled")
+endif()
+
+if(WITH_LIBCPP)
+  set(LIBCPP_FLAGS "-stdlib=libc++ -std=c++11 -nostdinc++ -I${LIBCPP_INCLUDE_PATH} -L${LIBCPP_LIB_PATH} -lstdc++")
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${LIBCPP_FLAGS}")
+
+  message(STATUS "Clang [libc++]: include path set to: ${LIBCPP_INCLUDE_PATH}")
+  message(STATUS "Clang [libc++]: lib path set to: ${LIBCPP_LIB_PATH}")
 endif()
 
 if(WITH_COREDEBUG)

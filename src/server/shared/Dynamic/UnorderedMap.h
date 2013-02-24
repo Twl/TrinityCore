@@ -25,6 +25,8 @@
 #    include <unordered_map>
 #elif COMPILER == COMPILER_INTEL
 #    include <ext/hash_map>
+#elif COMPILER == COMPILER_CLANG && PLATFORM == PLATFORM_APPLE
+#    include <ext/hash_map>
 #elif COMPILER == COMPILER_GNU && defined(__clang__) && defined(_LIBCPP_VERSION)
 #    include <unordered_map>
 #elif COMPILER == COMPILER_GNU && GCC_VERSION > 40200
@@ -55,6 +57,36 @@
 #elif COMPILER == COMPILER_INTEL
 #    define UNORDERED_MAP std::hash_map
 #    define UNORDERED_MULTIMAP std::hash_multimap
+#elif COMPILER == COMPILER_CLANG && PLATFORM == PLATFORM_APPLE
+#    define UNORDERED_MAP __gnu_cxx::hash_map
+#    define UNORDERED_MULTIMAP __gnu_cxx::hash_multimap
+#error "You are using Clang LLVM on OS X without libc++ (http://libcxx.llvm.org) and/or C++11 support. Compilation will now abort."
+     /*namespace __gnu_cxx
+     {
+         template<> struct hash<int64_t> 
+         {
+             size_t operator()(const int64_t val) const 
+             {
+                 return size_t(val);
+             }
+         };
+         
+         template<> struct hash<std::basic_string<char> >
+         {
+             size_t operator()(const std::basic_string<char> val) const
+             {
+                 return size_t(val.size());
+             }
+         };
+         
+         template<> struct hash<unsigned long long>
+          {
+              size_t operator()(const unsigned long long val) const
+              {
+                  return size_t(val);
+              }
+          };
+     }*/
 #elif COMPILER == COMPILER_GNU && defined(__clang__) && defined(_LIBCPP_VERSION)
 #    define UNORDERED_MAP std::unordered_map
 #    define UNORDERED_MULTIMAP std::unordered_multimap

@@ -41,6 +41,7 @@
 #define COMPILER_GNU       1
 #define COMPILER_BORLAND   2
 #define COMPILER_INTEL     3
+#define COMPILER_CLANG     4
 
 #ifdef _MSC_VER
 #  define COMPILER COMPILER_MICROSOFT
@@ -48,9 +49,13 @@
 #  define COMPILER COMPILER_BORLAND
 #elif defined( __INTEL_COMPILER )
 #  define COMPILER COMPILER_INTEL
+// check for clang before gcc, as it defines __GNUC__ as well.
+#elif defined( __clang__ ) && defined( __llvm__ )
+#  define COMPILER COMPILER_CLANG
 #elif defined( __GNUC__ )
 #  define COMPILER COMPILER_GNU
 #  define GCC_VERSION (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
+
 #else
 #  error "FATAL ERROR: Unknown compiler."
 #endif

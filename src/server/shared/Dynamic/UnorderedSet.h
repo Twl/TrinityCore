@@ -25,6 +25,8 @@
 # include <unordered_set>
 #elif COMPILER == COMPILER_INTEL
 # include <ext/hash_set>
+#elif COMPILER == COMPILER_CLANG && PLATFORM == PLATFORM_APPLE
+# include <ext/hash_set>
 #elif COMPILER == COMPILER_GNU && defined(__clang__) && defined(_LIBCPP_VERSION)
 # include <unordered_set>
 #elif COMPILER == COMPILER_GNU && GCC_VERSION > 40200
@@ -52,6 +54,8 @@ using stdext::hash_set;
 #elif COMPILER == COMPILER_INTEL
 # define UNORDERED_SET std::hash_set
 using std::hash_set;
+#elif COMPILER == COMPILER_CLANG && PLATFORM == PLATFORM_APPLE
+# define UNORDERED_SET __gnu_cxx::hash_set
 #elif COMPILER == COMPILER_GNU && defined(__clang__) && defined(_LIBCPP_VERSION)
 # define UNORDERED_SET std::unordered_set
 #elif COMPILER == COMPILER_GNU && GCC_VERSION > 40200
